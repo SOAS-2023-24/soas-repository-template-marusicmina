@@ -1,0 +1,153 @@
+version: '3.8'
+
+services: 
+  currency-exchange:
+    image: currency-exchange:latest
+    build: currency-exchange
+    mem_limit: 700m
+    ports:
+      - "8000:8000"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka     
+      
+  naming-server:
+    image: naming-server:latest
+    build: namingServer
+    mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - soas-network
+  
+  users-service:
+    image: users-service:latest
+    build: users-service
+    mem_limit: 700m
+    ports:
+      - "8770:8770"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+
+  currency-conversion:
+    image: currency-conversion:latest
+    build: currency-conversion
+    mem_limit: 700m
+    ports:
+      - "8100:8100"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+      - users-service
+      - currency-exchange
+      - bank-account
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+
+  bank-account:
+    image: bank-account:latest
+    build: bank-account
+    mem_limit: 700m
+    ports:
+      - "8200:8200"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+      - users-service
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka  
+      
+  crypto-exchange:
+    image: crypto-exchange:latest
+    build: crypto-exchange
+    mem_limit: 700m
+    ports:
+      - "8400:8400"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+      - users-service
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+
+  crypto-conversion:
+    image: crypto-conversion:latest
+    build: crypto-conversion
+    mem_limit: 700m
+    ports:
+      - "8500:8500"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+      - users-service
+      - crypto-exchange
+      - crypto-wallet
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+    
+  crypto-wallet:
+    image: crypto-wallet:latest
+    build: crypto-wallet
+    mem_limit: 700m
+    ports:
+      - "8300:8300"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+      - users-service
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+      
+  trade-service:
+    image: trade-service:latest
+    build: trade-service
+    mem_limit: 700m
+    ports:
+      - "8600:8600"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+      - users-service
+      - bank-account
+      - crypto-wallet
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+      
+  api-gateway:
+    image: api-gateway:latest
+    build: api-gateway
+    mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - soas-network
+    depends_on:
+      - naming-server
+      - users-service
+      - currency-exchange
+      - bank-account
+      - currency-conversion
+      - crypto-exchange
+      - crypto-wallet
+      - crypto-conversion
+      - trade-service
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+      USERS-SERVICE: http://users-service:8770/users-service/users
+          
+ 
+networks:
+  soas-network:
