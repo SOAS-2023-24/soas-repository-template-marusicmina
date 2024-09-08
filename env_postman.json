@@ -1,0 +1,24 @@
+{
+    "name": "My",
+    "id": "56becd3d-7b86-4c47-a84f-504f39932b57",
+    "_postman_variable_scope": "environment",
+    "_postman_exported_at": "2024-09-08T12:43:25.542Z",
+    "_postman_exported_using": "Thunder Client",
+    "values": [
+        {
+            "key": "admin",
+            "value": "YUBhLmNvbTpwYXNzd29yZA==",
+            "enabled": true
+        },
+        {
+            "key": "user",
+            "value": "dUB1LmNvbTpwYXNzd29yZA==",
+            "enabled": true
+        },
+        {
+            "key": "owner",
+            "value": "b0BvLmNvbTpwYXNzd29yZA==",
+            "enabled": true
+        }
+    ]
+}

@@ -1,0 +1,815 @@
+{
+    "info": {
+        "_postman_id": "bf780141-4490-4b48-841f-f55f216f053a",
+        "name": "soas-api-gateway",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "API Gateway",
+            "item": [
+                {
+                    "name": "Users",
+                    "item": [
+                        {
+                            "name": "All users",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users",
+                                    "path": [
+                                        "users-service",
+                                        "users"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{owner}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "User creates new user - fails",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users",
+                                    "path": [
+                                        "users-service",
+                                        "users"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"email\": \"a@b.com\",\n  \"password\": \"password\",\n  \"role\": \"OWNER\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Admin creates new owner - fails",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users",
+                                    "path": [
+                                        "users-service",
+                                        "users"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"email\": \"a@b.com\",\n  \"password\": \"password\",\n  \"role\": \"OWNER\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Admin creates new admin - fails",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users",
+                                    "path": [
+                                        "users-service",
+                                        "users"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"email\": \"a@b.com\",\n  \"password\": \"password\",\n  \"role\": \"ADMIN\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Admin creates new user - Success",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users",
+                                    "path": [
+                                        "users-service",
+                                        "users"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"email\": \"a@bq.com\",\n  \"password\": \"password\",\n  \"role\": \"USER\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Owner creates new admin - Success",
+                            "request": {
+                                "method": "POST",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users",
+                                    "path": [
+                                        "users-service",
+                                        "users"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{owner}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"email\": \"adm@b.com\",\n  \"password\": \"password\",\n  \"role\": \"ADMIN\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "User updates user - Fails",
+                            "request": {
+                                "method": "PUT",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users/1",
+                                    "path": [
+                                        "users-service",
+                                        "users",
+                                        "1"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"id\": 1,\n  \"email\": \"adm@b.com\",\n  \"password\": \"password\",\n  \"role\": \"OWNER\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Admin updates user - Success",
+                            "request": {
+                                "method": "PUT",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users/2",
+                                    "path": [
+                                        "users-service",
+                                        "users",
+                                        "2"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"id\": 2,\n  \"email\": \"u@u.com\",\n  \"password\": \"password2\",\n  \"role\": \"USER\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Admin updates admin (itself) - Success",
+                            "request": {
+                                "method": "PUT",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users/1",
+                                    "path": [
+                                        "users-service",
+                                        "users",
+                                        "1"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"id\": 1,\n  \"email\": \"a@a.com\",\n  \"password\": \"password2\",\n  \"role\": \"ADMIN\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "User deletes user - Fails",
+                            "request": {
+                                "method": "DELETE",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users/2",
+                                    "path": [
+                                        "users-service",
+                                        "users",
+                                        "2"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "Admin deletes user - Fails",
+                            "request": {
+                                "method": "DELETE",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users/2",
+                                    "path": [
+                                        "users-service",
+                                        "users",
+                                        "2"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "Owner deletes user - Success",
+                            "request": {
+                                "method": "DELETE",
+                                "url": {
+                                    "raw": "http://localhost:8765/users-service/users/3",
+                                    "path": [
+                                        "users-service",
+                                        "users",
+                                        "3"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{owner}}"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Bank",
+                    "item": [
+                        {
+                            "name": "Get All",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/bank-account/accounts",
+                                    "path": [
+                                        "bank-account",
+                                        "accounts"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "Get by email",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/bank-account/accounts/u@u.com",
+                                    "path": [
+                                        "bank-account",
+                                        "accounts",
+                                        "u@u.com"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "Update Bank Account",
+                            "request": {
+                                "method": "PUT",
+                                "url": {
+                                    "raw": "http://localhost:8765/bank-account/accounts/1",
+                                    "path": [
+                                        "bank-account",
+                                        "accounts",
+                                        "1"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"id\": 1,\n  \"email\": \"u@u.com\",\n  \"rsd_amount\": 1000.00,\n  \"usd_amount\": 2000.00,\n  \"eur_amount\": 3000.00,\n  \"chf_amount\": 4000.00,\n  \"gbp_amount\": 500.00,\n  \"rub_amount\": 7700.00\n}"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Crypto Wallet",
+                    "item": [
+                        {
+                            "name": "Get All",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/crypto-wallet/wallets",
+                                    "path": [
+                                        "crypto-wallet",
+                                        "wallets"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "Get by email",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/crypto-wallet/wallets/u@u.com",
+                                    "path": [
+                                        "crypto-wallet",
+                                        "wallets",
+                                        "u@u.com"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "Update Crypto Wallet",
+                            "request": {
+                                "method": "PUT",
+                                "url": {
+                                    "raw": "http://localhost:8765/crypto-wallet/wallets/1",
+                                    "path": [
+                                        "crypto-wallet",
+                                        "wallets",
+                                        "1"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{admin}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    },
+                                    "raw": "{\n  \"id\": 1,\n  \"email\": \"u@u.com\",\n  \"btc_amount\": 1.00,\n  \"eth_amount\": 2.00,\n  \"usdt_amount\": 3.00\n}"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Currency Exchange",
+                    "item": [
+                        {
+                            "name": "Get Exchange",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/currency-exchange/from/:from/to/:to",
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "from",
+                                            "value": "EUR"
+                                        },
+                                        {
+                                            "key": "to",
+                                            "value": "RSD"
+                                        }
+                                    ],
+                                    "path": [
+                                        "currency-exchange",
+                                        "from",
+                                        ":from",
+                                        "to",
+                                        ":to"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Crypto Exchange",
+                    "item": [
+                        {
+                            "name": "Get Exchange",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/crypto-exchange/from/:from/to/:to",
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "from",
+                                            "value": "USDT"
+                                        },
+                                        {
+                                            "key": "to",
+                                            "value": "ETH"
+                                        }
+                                    ],
+                                    "path": [
+                                        "crypto-exchange",
+                                        "from",
+                                        ":from",
+                                        "to",
+                                        ":to"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Currency Conversion",
+                    "item": [
+                        {
+                            "name": "Convert",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/currency-conversion-feign?from=EUR&to=RSD&quantity=100",
+                                    "query": [
+                                        {
+                                            "key": "from",
+                                            "value": "EUR"
+                                        },
+                                        {
+                                            "key": "to",
+                                            "value": "RSD"
+                                        },
+                                        {
+                                            "key": "quantity",
+                                            "value": "100"
+                                        }
+                                    ],
+                                    "variable": [],
+                                    "path": [
+                                        "currency-conversion-feign"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Crypto Conversion",
+                    "item": [
+                        {
+                            "name": "Convert",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/crypto-conversion-feign?from=BTC&to=ETH&quantity=1",
+                                    "query": [
+                                        {
+                                            "key": "from",
+                                            "value": "BTC"
+                                        },
+                                        {
+                                            "key": "to",
+                                            "value": "ETH"
+                                        },
+                                        {
+                                            "key": "quantity",
+                                            "value": "1"
+                                        }
+                                    ],
+                                    "variable": [],
+                                    "path": [
+                                        "crypto-conversion-feign"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Trade",
+                    "item": [
+                        {
+                            "name": "Convert F2C",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/trade-service-feign?from=RSD&to=BTC&quantity=12000",
+                                    "query": [
+                                        {
+                                            "key": "from",
+                                            "value": "RSD"
+                                        },
+                                        {
+                                            "key": "to",
+                                            "value": "BTC"
+                                        },
+                                        {
+                                            "key": "quantity",
+                                            "value": "12000"
+                                        }
+                                    ],
+                                    "variable": [],
+                                    "path": [
+                                        "trade-service-feign"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "Convert C2F",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "http://localhost:8765/trade-service-feign?from=BTC&to=USD&quantity=9",
+                                    "query": [
+                                        {
+                                            "key": "from",
+                                            "value": "BTC"
+                                        },
+                                        {
+                                            "key": "to",
+                                            "value": "USD"
+                                        },
+                                        {
+                                            "key": "quantity",
+                                            "value": "9"
+                                        }
+                                    ],
+                                    "variable": [],
+                                    "path": [
+                                        "trade-service-feign"
+                                    ],
+                                    "protocol": "http",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8765"
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Basic {{user}}"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
