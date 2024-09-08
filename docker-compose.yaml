@@ -2,7 +2,7 @@ version: '3.8'
 
 services: 
   currency-exchange:
-    image: currency-exchange:latest
+    image: minamarusic/currency-exchange:latest
     build: currency-exchange
     mem_limit: 700m
     ports:
@@ -15,7 +15,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka     
       
   naming-server:
-    image: naming-server:latest
+    image: minamarusic/naming-server:latest
     build: namingServer
     mem_limit: 700m
     ports:
@@ -24,7 +24,7 @@ services:
       - soas-network
   
   users-service:
-    image: users-service:latest
+    image: minamarusic/users-service:latest
     build: users-service
     mem_limit: 700m
     ports:
@@ -37,7 +37,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
 
   currency-conversion:
-    image: currency-conversion:latest
+    image: minamarusic/currency-conversion:latest
     build: currency-conversion
     mem_limit: 700m
     ports:
@@ -53,7 +53,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
 
   bank-account:
-    image: bank-account:latest
+    image: minamarusic/bank-account:latest
     build: bank-account
     mem_limit: 700m
     ports:
@@ -67,7 +67,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka  
       
   crypto-exchange:
-    image: crypto-exchange:latest
+    image: minamarusic/crypto-exchange:latest
     build: crypto-exchange
     mem_limit: 700m
     ports:
@@ -81,7 +81,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
 
   crypto-conversion:
-    image: crypto-conversion:latest
+    image: minamarusic/crypto-conversion:latest
     build: crypto-conversion
     mem_limit: 700m
     ports:
@@ -97,7 +97,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
     
   crypto-wallet:
-    image: crypto-wallet:latest
+    image: minamarusic/crypto-wallet:latest
     build: crypto-wallet
     mem_limit: 700m
     ports:
@@ -111,7 +111,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
       
   trade-service:
-    image: trade-service:latest
+    image: minamarusic/trade-service:latest
     build: trade-service
     mem_limit: 700m
     ports:
@@ -127,7 +127,7 @@ services:
       EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
       
   api-gateway:
-    image: api-gateway:latest
+    image: minamarusic/api-gateway:latest
     build: api-gateway
     mem_limit: 700m
     ports:
