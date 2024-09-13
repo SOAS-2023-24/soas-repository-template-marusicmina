@@ -24,6 +24,16 @@ public class BankAccountDto {
 		
 	}
 
+	public BankAccountDto(long id, BigDecimal rsd_amount, BigDecimal usd_amount, BigDecimal eur_amount, BigDecimal chf_amount, BigDecimal gbp_amount, String email) {
+		this.id = id;
+		this.rsd_amount = rsd_amount;
+		this.usd_amount = usd_amount;
+		this.eur_amount = eur_amount;
+		this.chf_amount = chf_amount;
+		this.gbp_amount = gbp_amount;
+		this.email = email;
+	}
+
 	public long getId() {
 		return id;
 	}

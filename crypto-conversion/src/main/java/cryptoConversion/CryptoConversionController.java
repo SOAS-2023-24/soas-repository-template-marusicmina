@@ -7,6 +7,7 @@ import api.dto.*;
 import api.feignProxies.CryptoExchangeProxy;
 import api.feignProxies.CryptoWalletProxy;
 import api.feignProxies.UsersServiceProxy;
+import api.services.CryptoConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 
 @RestController
-public class CryptoConversionController {
+public class CryptoConversionController implements CryptoConversionService {
 
 	@Autowired
 	private CryptoExchangeProxy cryptoExchangeProxy;

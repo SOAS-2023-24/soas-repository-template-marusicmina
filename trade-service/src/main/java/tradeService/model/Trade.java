@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class TradeService {
+public class Trade {
 	
 	@Id
 	private long id;
@@ -20,10 +20,10 @@ public class TradeService {
 	private BigDecimal conversionMultiple;
 	
 	
-	public TradeService() {
+	public Trade() {
 	}
 	
-	public TradeService(long id, String from, String to, BigDecimal conversionMultiple) {
+	public Trade(long id, String from, String to, BigDecimal conversionMultiple) {
 		this.id = id;
 		this.from = from;
 		this.to = to;

@@ -2,11 +2,13 @@ package usersService;
 
 import java.util.List;
 
+import api.dto.CustomUserDto;
 import api.dto.NewBankAccountDto;
 import api.dto.NewCryptoWalletDto;
 import api.dto.UserDto;
 import api.feignProxies.BankAccountServiceProxy;
 import api.feignProxies.CryptoWalletProxy;
+import api.services.UsersService;
 import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ import usersService.model.CustomUser;
 import util.exceptions.NoDataFoundException;
 
 @RestController
-public class UserController {
+public class UserController implements UsersService {
 
 	@Autowired
 	private BankAccountServiceProxy proxy;
@@ -38,8 +40,9 @@ public class UserController {
 	private CustomUserRepository repo;
 
 	@GetMapping("/users-service/users")
-	public List<CustomUser> getAllUsers() {
-		return repo.findAll();
+	public List<CustomUserDto> getAllUsers() {
+
+		return repo.findAll().stream().map(user -> new CustomUserDto(user.getId(), user.getEmail(), user.getPassword(), user.getRole())).toList();
 	}
 
 	@PostMapping("/users-service/users")
@@ -80,13 +83,16 @@ public class UserController {
 				CustomUser forCreate = new CustomUser();
 				BeanUtils.copyProperties(user, forCreate);
 				CustomUser createdUser = repo.save(forCreate);
-				NewBankAccountDto dto = new NewBankAccountDto();
-				dto.setEmail(forCreate.getEmail());
-				proxy.createBankAccount(dto, authorizationHeader);
 
-				NewCryptoWalletDto newCryptoWalletDto = new NewCryptoWalletDto();
-				newCryptoWalletDto.setEmail(forCreate.getEmail());
-				cryptoWalletProxy.createCryptoWallet(newCryptoWalletDto, authorizationHeader);
+				if (forCreate.getRole().equals("USER")) {
+					NewBankAccountDto dto = new NewBankAccountDto();
+					dto.setEmail(forCreate.getEmail());
+					proxy.createBankAccount(dto, authorizationHeader);
+					NewCryptoWalletDto newCryptoWalletDto = new NewCryptoWalletDto();
+					newCryptoWalletDto.setEmail(forCreate.getEmail());
+					cryptoWalletProxy.createCryptoWallet(newCryptoWalletDto, authorizationHeader);
+				}
+
 				return new ResponseEntity<CustomUser>(createdUser, HttpStatus.CREATED);
 				}
 			} else {
@@ -100,7 +106,7 @@ public class UserController {
 	@PutMapping("/users-service/users/{id}")
 	public ResponseEntity<?> updateUser(
 			@PathVariable long id,
-			@RequestBody CustomUser userUpdate,
+			@RequestBody CustomUserDto userUpdate,
 			@RequestHeader("Authorization") String authorizationHeader) {
 		String role = extractRoleFromAuthorizationHeader(authorizationHeader);
 		String email = extractEmail(authorizationHeader);

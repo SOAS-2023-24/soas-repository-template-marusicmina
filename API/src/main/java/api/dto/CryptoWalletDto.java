@@ -17,6 +17,13 @@ public class CryptoWalletDto {
 		
 	}
 
+	public CryptoWalletDto(long id, BigDecimal btc_amount, BigDecimal eth_amount, BigDecimal usdt_amount) {
+		this.id = id;
+		this.btc_amount = btc_amount;
+		this.eth_amount = eth_amount;
+		this.usdt_amount = usdt_amount;
+	}
+
 	public long getId() {
 		return id;
 	}

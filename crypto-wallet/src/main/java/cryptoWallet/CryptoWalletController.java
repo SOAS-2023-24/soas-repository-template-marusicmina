@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import api.dto.CryptoWalletDto;
 import api.dto.NewCryptoWalletDto;
 import api.feignProxies.BankAccountServiceProxy;
 import api.feignProxies.UsersServiceProxy;
+import api.services.CryptoWalletService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ import cryptoWallet.model.CryptoWallet;
 import jakarta.transaction.Transactional;
 
 @RestController
-public class CryptoWalletController {
+public class CryptoWalletController implements CryptoWalletService {
 	
 	@Autowired
 	private CustomCryptoWalletRepository repo;
@@ -36,8 +38,9 @@ public class CryptoWalletController {
 	private BankAccountServiceProxy bankAccountProxy;
 	
 	@GetMapping("/crypto-wallet/wallets")
-	public List<CryptoWallet> getAllCryptoWallets(){
-		return repo.findAll();
+	public List<CryptoWalletDto> getAllCryptoWallets(){
+
+		return repo.findAll().stream().map(cryptoWallet -> new CryptoWalletDto(cryptoWallet.getId(), cryptoWallet.getBtc_amount(), cryptoWallet.getEth_amount(), cryptoWallet.getUsdt_amount())).toList();
 	}
 	
 	@GetMapping("/crypto-wallet/wallets/{email}")
@@ -83,7 +86,7 @@ public class CryptoWalletController {
 	@PutMapping("/crypto-wallet/wallets/{id}")
 	public ResponseEntity<?> updateCryptoWallet (
 			@PathVariable Long id,
-			@RequestBody CryptoWallet cryptoWallet,
+			@RequestBody CryptoWalletDto cryptoWallet,
 			@RequestHeader("Authorization") String authorizationHeader){
 		String role = userServiceProxy.extractRole(authorizationHeader);
 		if(role.equals("ADMIN")) {
@@ -94,7 +97,7 @@ public class CryptoWalletController {
 				BeanUtils.copyProperties(cryptoWallet, existingWallet);
 				existingWallet.setId(id);
 				existingWallet.setEmail(email);
-				repo.save(cryptoWallet);
+				repo.save(existingWallet);
 				return ResponseEntity.status(HttpStatus.OK).build();
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

@@ -1,5 +1,6 @@
 package currencyExchange;
 
+import api.services.CurrencyExchangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 
 @RestController
-public class CurrencyExchangeController {
+public class CurrencyExchangeController implements CurrencyExchangeService {
 	
 	@Autowired
 	private CurrencyExchangeRepository repo;

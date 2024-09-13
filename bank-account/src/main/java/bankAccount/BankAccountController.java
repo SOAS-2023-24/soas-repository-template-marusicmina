@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import api.dto.BankAccountDto;
 import api.dto.NewBankAccountDto;
 import api.feignProxies.UsersServiceProxy;
+import api.services.BankAccountService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.transaction.Transactional;
 
 @RestController
-public class BankAccountController {
+public class BankAccountController implements BankAccountService {
 	
 	@Autowired
 	private CustomBankAccountRepository repo;
@@ -33,8 +35,8 @@ public class BankAccountController {
 	private UsersServiceProxy proxy;
 	
 	@GetMapping("/bank-account/accounts")
-	public List<BankAccount> getAllBankAccounts(){
-		return repo.findAll();
+	public List<BankAccountDto> getAllBankAccounts(){
+		return repo.findAll().stream().map(bankAccount -> new BankAccountDto(bankAccount.getId(), bankAccount.getRsd_amount(), bankAccount.getUsd_amount(), bankAccount.getEur_amount(), bankAccount.getChf_amount(), bankAccount.getGbp_amount(), bankAccount.getEmail())).toList();
 	}
 	
 	@GetMapping("/bank-account/accounts/{email}")
@@ -79,7 +81,7 @@ public class BankAccountController {
 	@PutMapping("/bank-account/accounts/{id}")
 	public ResponseEntity<?> updateBankAccount (
 			@PathVariable Long id,
-			@RequestBody BankAccount bankAccount,
+			@RequestBody BankAccountDto bankAccount,
 			@RequestHeader("Authorization") String authorizationHeader){
 		String role = proxy.extractRole(authorizationHeader);
 		if(role.equals("ADMIN")) {
@@ -90,7 +92,7 @@ public class BankAccountController {
 				BeanUtils.copyProperties(bankAccount, existingAccount);
 				existingAccount.setId(id);
 				existingAccount.setEmail(email);
-				repo.save(bankAccount);
+				repo.save(existingAccount);
 				return ResponseEntity.status(HttpStatus.OK).build();
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

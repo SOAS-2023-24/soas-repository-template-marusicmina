@@ -2,25 +2,39 @@ package api.services;
 
 import java.util.List;
 
+import api.dto.CustomUserDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import api.dto.UserDto;
 
 public interface UsersService {
 
-	@GetMapping("/users")
-	List<UserDto> getUsers();
-	
-	@PostMapping("/users/newAdmin")
-	ResponseEntity<?> createAdmin(@RequestBody UserDto dto);
-	
-	@PostMapping("/users/newUser")
-	ResponseEntity<?> createUser(@RequestBody UserDto dto);
-	
-	@PutMapping("/users")
-	ResponseEntity<?> updateUser(@RequestBody UserDto dto);
+	@GetMapping("/users-service/users")
+	public List<CustomUserDto> getAllUsers();
+
+	@PostMapping("/users-service/users")
+	public ResponseEntity<?> createUser(
+			@RequestBody UserDto user,
+			@RequestHeader("Authorization") String authorizationHeader);
+
+	@PutMapping("/users-service/users/{id}")
+	public ResponseEntity<?> updateUser(
+			@PathVariable long id,
+			@RequestBody CustomUserDto userUpdate,
+			@RequestHeader("Authorization") String authorizationHeader);
+
+	@DeleteMapping("/users-service/users/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable long id,
+										@RequestHeader("Authorization") String authorizationHeader);
+
+	@GetMapping("/users-service/user/role/{email}")
+	public String getUsersRoleByEmail(@PathVariable String email);
+
+	@GetMapping("/users-service/email-logged-user")
+	public String extractEmail(@RequestHeader("Authorization") String authorizationHeader);
+
+	@GetMapping("/users-service/id-logged-user/{email}")
+	public Long extractId(@PathVariable String email);
+
 }

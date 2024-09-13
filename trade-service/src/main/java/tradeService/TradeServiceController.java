@@ -9,6 +9,7 @@ import api.feignProxies.BankAccountServiceProxy;
 import api.feignProxies.CryptoWalletProxy;
 import api.feignProxies.CurrencyConversionProxy;
 import api.feignProxies.UsersServiceProxy;
+import api.services.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import feign.FeignException;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import tradeService.model.TradeService;
+import tradeService.model.Trade;
 
 @RestController
-public class TradeServiceController {
+public class TradeServiceController implements TradeService {
 
 	@Autowired
 	private CustomTradeServiceRepository repo;
@@ -42,8 +43,8 @@ public class TradeServiceController {
 	@Autowired
 	private CryptoWalletProxy cryptoWalletProxy;
 
-	public ResponseEntity<TradeService> getTrade(@PathVariable String from, @PathVariable String to) {
-		TradeService kurs = repo.findByFromAndToIgnoreCase(from, to);
+	public ResponseEntity<Trade> getTrade(@PathVariable String from, @PathVariable String to) {
+		Trade kurs = repo.findByFromAndToIgnoreCase(from, to);
 		if (kurs != null) {
 			return ResponseEntity.ok(kurs);
 		} else {
@@ -91,8 +92,8 @@ public class TradeServiceController {
 				if ("USER".equals(role)) {
 					boolean check = bankAccountProxy.getConversionPosibility(email, bigDecimalValue, from);
 					if (check) {
-						ResponseEntity<TradeService> trade = getTrade(from, to);
-						TradeService body = trade.getBody();
+						ResponseEntity<Trade> trade = getTrade(from, to);
+						Trade body = trade.getBody();
 						BigDecimal tradeResult = body.getConversionMultiple().multiply(bigDecimalValue);
 
 						cryptoWalletProxy.updateCurrencyAmount(email, to, tradeResult);
@@ -123,8 +124,8 @@ public class TradeServiceController {
 							to = "EUR";
 						}
 
-						ResponseEntity<TradeService> trade = getTrade(from, to);
-						TradeService body = trade.getBody();
+						ResponseEntity<Trade> trade = getTrade(from, to);
+						Trade body = trade.getBody();
 						BigDecimal resultTrade = body.getConversionMultiple().multiply(bigDecimalValue);
 
 						bankAccountProxy.updateCurrencyAmount(email, to, resultTrade);
